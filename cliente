@@ -1,0 +1,100 @@
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+public class Cliente {
+    public static void main(String[] args) throws IOException {
+
+        Socket socket = new Socket("localhost", 5000);
+
+        DataInputStream in = new DataInputStream(socket.getInputStream());
+
+        DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+
+        Scanner sc = new Scanner(System.in);
+
+        boolean activo = true;
+
+        while (activo) {
+ 
+           String menu = in.readUTF();
+           System.out.println(menu);
+
+            System.out.print("OPCIÓN: ");
+            int opcion = sc.nextInt();
+            out.writeInt(opcion);
+
+            switch (opcion) {
+                case 1: // Suma
+                    System.out.print("¿CUANTAS CIFRAS A SUMAR? ");
+                    int cantidad = sc.nextInt();
+                    out.writeInt(cantidad);
+
+                    for (int i = 0; i < cantidad; i++) {
+                        System.out.print("NUMERO " + (i + 1) + ": ");
+                        double num = sc.nextDouble();
+                        out.writeDouble(num);
+                    }
+                    break;
+
+                case 2: // Seno
+                    System.out.print("UN NUMERO: ");
+                    double anguloSeno = sc.nextDouble();
+                    out.writeDouble(anguloSeno);
+                    break;
+
+                case 3: // Coseno
+                    System.out.print("OTRO  NUMERO: ");
+                    double anguloCos = sc.nextDouble();
+                    out.writeDouble(anguloCos);
+                    break;
+
+                case 4: // RAIZ CUADRADA
+                    System.out.print("NUMERO POSITIVO: ");
+                    double numRaiz = sc.nextDouble();
+                    out.writeDouble(numRaiz);
+                    break;
+
+                case 5: // POTENCIA
+                    System.out.print("BASE: ");
+                    double base = sc.nextDouble();
+                    System.out.print("EXPONENTE: ");
+                    double exponente = sc.nextDouble();
+                    out.writeDouble(base);
+                    out.writeDouble(exponente);
+                    break;
+
+                case 6: // SALIR
+                    activo = false;
+                    break;
+
+                default:
+                    System.out.println("NO VALIDO");
+            }
+
+            if (opcion >= 1 && opcion <= 5) {
+                String respuesta = in.readUTF();
+                System.out.println("Resultado: " + respuesta);
+            }
+        }
+
+        socket.close();
+        sc.close();
+    }
+}
+
+
+
+
+                default:
+                    out.writeUTF("NO VALIDO.");
+                    System.out.println("NO VALIDO.");
+            }
+        }
+
+        socket.close();
+        servidor.close();
+        System.out.println(" CONEXIÓN TERMINO.");
+    }
+}
+
